@@ -4,7 +4,7 @@ Este documento describe el proceso de ETL (Extracción, Transformación y Carga)
 
 ## 1. Capa Inicial
 
-- **Fuente de Datos:** El proceso comienza con la lectura de un archivo CSV ("IMDbMovies.csv") que contiene información sobre películas. Este archivo se encuentra en el directorio `/content/01_capa_inicial/`.
+- **Fuente de Datos:** El proceso comienza con la lectura de un archivo CSV ("IMDbMovies.csv") que contiene información sobre películas. Este archivo se encuentra en el directorio `/content/ProcesamientoDatos/01_capa_inicial/`.
 - **Formato:** CSV
 - **Procesamiento:** Se define un esquema para asegurar la correcta interpretación de los tipos de datos en el DataFrame. Se realiza una lectura del archivo csv utilizando el esquema definido. Los datos se cargan en un DataFrame de Spark.
 
@@ -17,14 +17,14 @@ En esta capa se realiza la limpieza y transformación de los datos provenientes 
 - **Procesamiento:** Esta capa se centra en la limpieza y transformación de los datos relacionados con las finanzas de las películas.
   - Se extrae la información monetaria (moneda) utilizando expresiones regulares.
   - Se limpian las columnas numéricas ("Budget", "Gross_US_Canada", "Gross_Worldwide", "Opening_Weekend_US_Canada") utilizando expresiones regulares, reemplazando caracteres especiales y convirtiendo los valores a tipo numérico (double), manejo de valores nulos.
-- **Destino:** Los datos transformados se guardan en formato Parquet en el directorio `/content/02_capa_intermedia/finanzas.parquet`.
+- **Destino:** Los datos transformados se guardan en formato Parquet en el directorio `/content/ProcesamientoDatos/02_capa_intermedia/finanzas.parquet`.
 
 ### 2.2 DataFrame de Calificaciones
 
 - **Procesamiento:** Esta capa limpia y transforma datos relacionados con la calificación de las películas.
   - Se extrae la información de calificaciones, limpiando caracteres innecesarios y convirtiendo los valores a tipo numérico.
   - Los valores de la columna "Number_of_Ratings" se convierten a número enteros, manejando las abreviaturas ("K") para representar miles.
-- **Destino:** Los datos transformados se guardan en formato Parquet en el directorio `/content/02_capa_intermedia/calificaciones.parquet`.
+- **Destino:** Los datos transformados se guardan en formato Parquet en el directorio `/content/ProcesamientoDatos/02_capa_intermedia/calificaciones.parquet`.
 
 ## 3. Capa Final
 
@@ -42,9 +42,9 @@ Se realizan agrupaciones utilizando las columnas "Title" y "Release_Year" como c
 
 ### 3.2 Almacenamiento
 
-- **DataFrame de Finanzas Agrupado:** Los datos agregados se almacenan en formato Parquet en `/content/03_capa_final/finanzas_grouped.parquet`.
+- **DataFrame de Finanzas Agrupado:** Los datos agregados se almacenan en formato Parquet en `/content/ProcesamientoDatos/03_capa_final/finanzas_grouped.parquet`.
 
-- **DataFrame de Calificaciones Agrupado:** Los datos agregados se almacenan en formato Parquet en `/content/03_capa_final/calificaciones_grouped.parquet`.
+- **DataFrame de Calificaciones Agrupado:** Los datos agregados se almacenan en formato Parquet en `/content/ProcesamientoDatos/03_capa_final/calificaciones_grouped.parquet`.
 
 ## Análisis Exploratorio de Datos (EDA)
 
