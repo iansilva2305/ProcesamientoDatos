@@ -1,6 +1,6 @@
-# Procesamiento de Datos de Películas
+# Procesamiento de Datos de Películas de IMDb
 
-Este documento describe el proceso de ETL (Extracción, Transformación y Carga) aplicado a un conjunto de datos de películas, utilizando Apache Spark para la manipulación de datos y la generación de informes. El proceso se divide en tres capas principales:
+Este documento describe el proceso de ETL (Extracción, Transformación y Carga) aplicado a un conjunto de datos de películas de la mayor base de datos de peliculas a nivel mundial (IMDb), utilizando Apache Spark para la manipulación de datos y la generación de informes. El proceso se divide en tres capas principales:
 
 ## 1. Capa Inicial
 
