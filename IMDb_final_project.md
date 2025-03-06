@@ -4,7 +4,7 @@ Este documento describe el proceso de ETL (Extracción, Transformación y Carga)
 
 ## 1. Capa Inicial
 
-- **Fuente de Datos:** El proceso comienza con la lectura de un archivo CSV ("IMDbMovies.csv") que contiene información sobre películas. Este archivo se encuentra en el directorio `/content/01_capa_inicial/`.
+- **Fuente de Datos:** El proceso comienza con la lectura de un archivo CSV ("IMDbMovies.csv") que contiene información sobre películas. Este archivo se encuentra en el directorio `/content/ProcesamientoDatos/01_capa_inicial/`.
 - **Formato:** CSV
 - **Procesamiento:** Se define un esquema para asegurar la correcta interpretación de los tipos de datos en el DataFrame. Se realiza una lectura del archivo csv utilizando el esquema definido. Los datos se cargan en un DataFrame de Spark.
 
@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 
 # Initialize SparkSession
 spark = (SparkSession.builder
-                    .appName("Proyecto_Final_Procesamiento_de_Datos")
+                    .appName("Procesamiento_de_Datos")
                     .getOrCreate()
         )
 ```
@@ -47,7 +47,7 @@ schema = StructType([
     StructField("Opening_Weekend_US_Canada", StringType(), True)
 ])
 
-# Cargando los datos de IMDbMovies.csv en la carpeta "01_capa_inicial", la misma que debemos crear,
+# Cargando los datos de IMDbMovies.csv en la carpeta "/coontent/ProcesamientoDatos/01_capa_inicial", la misma que debemos crear,
 #utilizando el esquema especificado "schema" y el manejo de cadenas entre comillas
 df = spark.read.csv("/content/ProcesamientoDatos/01_capa_inicial/IMDbMovies.csv", header=True, schema=schema, quote='"', escape='"')
 
@@ -64,7 +64,7 @@ En esta capa se realiza la limpieza y transformación de los datos provenientes 
 - **Procesamiento:** Esta capa se centra en la limpieza y transformación de los datos relacionados con las finanzas de las películas.
   - Se extrae la información monetaria (moneda) utilizando expresiones regulares.
   - Se limpian las columnas numéricas ("Budget", "Gross_US_Canada", "Gross_Worldwide", "Opening_Weekend_US_Canada") utilizando expresiones regulares, reemplazando caracteres especiales y convirtiendo los valores a tipo numérico (double), manejo de valores nulos.
-- **Destino:** Los datos transformados se guardan en formato Parquet en el directorio `/content/02_capa_intermedia/finanzas.parquet`.
+- **Destino:** Los datos transformados se guardan en formato Parquet en el directorio `/content/ProcesamientoDatos/02_capa_intermedia/finanzas.parquet`.
 
 ```python
 # Definiendo los esquemas para migrar la data
@@ -101,7 +101,7 @@ finanzas_cleaned_df.write.format("parquet").mode("overwrite").save("/content/Pro
 - **Procesamiento:** Esta capa limpia y transforma datos relacionados con la calificación de las películas.
   - Se extrae la información de calificaciones, limpiando caracteres innecesarios y convirtiendo los valores a tipo numérico.
   - Los valores de la columna "Number_of_Ratings" se convierten a número enteros, manejando las abreviaturas ("K") para representar miles.
-- **Destino:** Los datos transformados se guardan en formato Parquet en el directorio `/content/02_capa_intermedia/calificaciones.parquet`.
+- **Destino:** Los datos transformados se guardan en formato Parquet en el directorio `/content/ProcesamientoDatos/02_capa_intermedia/calificaciones.parquet`.
 
 ```python
 # Creando el Dataframe de Calificaciones
@@ -175,9 +175,9 @@ calificaciones_grouped_df.show()
 
 ### 3.2 Almacenamiento
 
-- **DataFrame de Finanzas Agrupado:** Los datos agregados se almacenan en formato Parquet en `/content/03_capa_final/finanzas_grouped.parquet`.
+- **DataFrame de Finanzas Agrupado:** Los datos agregados se almacenan en formato Parquet en `/content/ProcesamientoDatos/03_capa_final/finanzas_grouped.parquet`.
 
-- **DataFrame de Calificaciones Agrupado:** Los datos agregados se almacenan en formato Parquet en `/content/03_capa_final/calificaciones_grouped.parquet`.
+- **DataFrame de Calificaciones Agrupado:** Los datos agregados se almacenan en formato Parquet en `/content/ProcesamientoDatos/03_capa_final/calificaciones_grouped.parquet`.
 
 ```python
 # Guarda en formato parquet la tabla de Finanzas Agrupada por Clave Primaria Compuesta (Title y Release_Year)
